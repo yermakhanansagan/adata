@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <OpenBlock @click="onOpen" />
+    <SideTransition>
+      <div class="registration-block" v-if="show">
+        <AddressBlock title="Адрес прописки" />
+        <AddressBlock title="Адрес временной прописки" />
+        <div class="buttons-block">
+          <BaseButton label="Отмена" type="cancel" />
+          <BaseButton label="Сохранить" type="submit" class="left-space" />
+        </div>
+      </div>
+    </SideTransition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AddressBlock from "./components/AddressBlock.vue";
+import OpenBlock from "./components/OpenBlock.vue";
+import BaseButton from "./components/BaseButton.vue";
+import SideTransition from "./transitions/SideTransition.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    AddressBlock,
+    OpenBlock,
+    BaseButton,
+    SideTransition,
+  },
+  data: () => {
+    return {
+      show: false,
+    };
+  },
+  methods: {
+    onOpen() {
+      this.show = !this.show;
+    },
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  box-sizing: border-box;
+  margin: 0 16px;
+}
+.buttons-block {
+  margin-top: 30px;
+}
+.left-space {
+  margin-left: 16px;
 }
 </style>
