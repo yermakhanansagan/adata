@@ -33,12 +33,19 @@
 
 <script>
 import BaseInput from "./BaseInput.vue";
+
 export default {
   name: "AddressBlock",
   components: { BaseInput },
   props: {
     title: { type: String, required: true },
-    type: { type: String, required: true },
+    type: {
+      type: String,
+      required: true,
+      validator(value) {
+        return ["address", "registrationAddress"].includes(value);
+      },
+    },
   },
   computed: {
     content: {
@@ -56,7 +63,7 @@ export default {
           this.address(value);
         }
         if (this.type === "registrationAddress") {
-          this.registrationAddress(value)
+          this.registrationAddress(value);
         }
       },
     },
@@ -67,7 +74,7 @@ export default {
     },
     registrationAddress(value) {
       this.$store.commit("setRegistrationAddress", value);
-    }
+    },
   },
 };
 </script>

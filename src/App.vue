@@ -3,17 +3,19 @@
     <OpenBlock @click="onOpen" />
     <SideTransition>
       <div class="registration-block" v-if="show">
-        <AddressBlock
-          title="Адрес прописки"
-          type="address"
-        />
+        <AddressBlock title="Адрес прописки" type="address" />
         <AddressBlock
           title="Адрес временной прописки"
           type="registrationAddress"
         />
         <div class="buttons-block">
-          <BaseButton label="Отмена" type="cancel" />
-          <BaseButton label="Сохранить" type="submit" class="left-space" @click="showAddress"/>
+          <BaseButton label="Отмена" type="cancel" @click="onCancel" />
+          <BaseButton
+            label="Сохранить"
+            type="submit"
+            class="left-space"
+            @click="onSave"
+          />
         </div>
       </div>
     </SideTransition>
@@ -43,10 +45,24 @@ export default {
     onOpen() {
       this.show = !this.show;
     },
-    showAddress() {
+    onSave() {
       this.$store.commit("setAddress", this.$store.getters.StateAddress);
-      this.$store.commit("setRegistrationAddress", this.$store.getters.StateRegistrationAddress);
-    }
+      this.$store.commit(
+        "setRegistrationAddress",
+        this.$store.getters.StateRegistrationAddress
+      );
+    },
+    onCancel() {
+      const payload = {
+        area: "",
+        street: "",
+        region: "",
+        houseNumber: "",
+        city: "",
+      };
+      this.$store.commit("setAddress", payload);
+      this.$store.commit("setRegistrationAddress", payload);
+    },
   },
 };
 </script>

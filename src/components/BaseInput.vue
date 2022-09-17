@@ -5,13 +5,15 @@
       class="base-input"
       type="text"
       :placeholder="placeholder"
-      :value="value"
+      :value="$v.value.$model"
       @input="$emit('input', $event.target.value)"
     />
+    <div class="error" v-show="!$v.value.required">Заполните поле</div>
   </div>
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "BaseInput",
   props: {
@@ -21,8 +23,12 @@ export default {
   },
   methods: {
     handleinput(e) {
+      this.$v.value.touch;
       this.$emit("input", e.event.target);
     },
+  },
+  validations: {
+    value: { required },
   },
 };
 </script>
@@ -48,5 +54,9 @@ export default {
 
 .base-input__label {
   size: 14px;
+}
+
+.error {
+  color: red;
 }
 </style>
