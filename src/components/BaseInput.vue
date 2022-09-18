@@ -5,30 +5,38 @@
       class="base-input"
       type="text"
       :placeholder="placeholder"
-      :value="$v.value.$model"
+      :value="value"
       @input="$emit('input', $event.target.value)"
     />
-    <div class="error" v-show="!$v.value.required">Заполните поле</div>
+    <div class="error" v-show="show">Заполните поле</div>
   </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
 export default {
   name: "BaseInput",
   props: {
     placeholder: { type: String, required: true },
     value: { type: String, required: true },
     label: { type: String, required: true },
+    error: { type: Boolean, default: false },
+  },
+  data: () => {
+    return { show: false };
+  },
+  watch: {
+    error(newValue) {
+      if (newValue) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
   },
   methods: {
     handleinput(e) {
-      this.$v.value.touch;
       this.$emit("input", e.event.target);
     },
-  },
-  validations: {
-    value: { required },
   },
 };
 </script>

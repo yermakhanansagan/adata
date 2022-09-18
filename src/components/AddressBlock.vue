@@ -5,27 +5,32 @@
       <BaseInput
         placeholder="Укажите область/город"
         label="Область/Город республиканского значения"
-        v-model="content.area"
+        v-model="$v.content.area.$model"
+        :error="!$v.content.area.required"
       />
       <BaseInput
         placeholder="Улица"
         label="Укажите улицу"
-        v-model="content.street"
+        v-model="$v.content.street.$model"
+        :error="!$v.content.street.required"
       />
       <BaseInput
         placeholder="Регион/район"
         label="Укажите регион/район"
-        v-model="content.region"
+        v-model="$v.content.region.$model"
+        :error="!$v.content.region.required"
       />
       <BaseInput
         placeholder="№ дома"
         label="Укажите № дома"
-        v-model="content.houseNumber"
+        v-model="$v.content.houseNumber.$model"
+        :error="!$v.content.houseNumber.required"
       />
       <BaseInput
         placeholder="Населенный пункт/Город"
         label="Укажите населенный пункт/город"
-        v-model="content.city"
+        v-model="$v.content.city.$model"
+        :error="!$v.content.city.required"
       />
     </div>
   </div>
@@ -33,7 +38,7 @@
 
 <script>
 import BaseInput from "./BaseInput.vue";
-
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "AddressBlock",
   components: { BaseInput },
@@ -74,6 +79,15 @@ export default {
     },
     registrationAddress(value) {
       this.$store.commit("setRegistrationAddress", value);
+    },
+  },
+  validations: {
+    content: {
+      area: { required },
+      region: { required },
+      street: { required },
+      houseNumber: { required },
+      city: { required },
     },
   },
 };
